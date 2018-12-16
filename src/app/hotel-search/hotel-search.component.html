@@ -1,0 +1,43 @@
+<form>
+    <div class="d-flex">
+        <div class="form-group px-15">
+            <label for="location">Where are you going?</label>
+            <input type="text" placeholder="Enter Location" class="location hotels-icon" id="location"/>
+            <i class="hotel-location hotel-icon-p"></i>
+        </div>
+    </div>
+    <div class="d-flex">
+        <div class="form-group w-200 px-15">
+            <label for="checkIn">Check In</label>
+            <input type="text" placeholder="Check In" class="datepicker hotels-icon" id="checkIn" name="checkIn" ngbDatepicker #checkIn="ngbDatepicker" (click)="checkIn.toggle()" required/>
+            <i class="hotel-calendar hotel-icon-p"></i>
+        </div>
+        <div class="form-group w-200 px-15">
+            <label for="checkOut">Check-Out</label>
+            <input type="text" placeholder="Check-Out" class="datepicker hotels-icon" id="checkOut" name="checkOut" ngbDatepicker #checkOut="ngbDatepicker" (click)="checkOut.toggle()"/>
+            <i class="hotel-calendar hotel-icon-p"></i>
+        </div>
+        <div class="form-group w-200 px-15">
+            <label>Guest</label>
+            <label class="d-inline radiocontainer" for="1">
+                <input type="radio" name="guest" id="1" value="1">
+                <span class="radiobtn">1</span>
+            </label>
+            <label class="d-inline radiocontainer" for="2">
+                <input type="radio" name="guest" id="2" value="2">
+                <span class="radiobtn">2</span>
+            </label>
+            <label class="d-inline radiocontainer" for="3">
+                <input type="radio" name="guest" id="3" value="3">
+                <span class="radiobtn">3</span>
+            </label>
+            <label class="d-inline radiocontainer" for="3plus">
+                <input type="radio" name="guest" id="3plus" value="3+">
+                <span class="radiobtn">3+</span>
+            </label>
+        </div>
+    </div>
+    <div class="px-15 py-15px">
+        <button type="button" class="btn btn-secondary search-hotels" (click)="onSelect()">Search for Hotels</button>
+    </div>
+</form>

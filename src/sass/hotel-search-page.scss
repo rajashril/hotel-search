@@ -1,0 +1,127 @@
+body {
+    background-color: $bg-color;
+    color: $text-color;
+    font-size: $font-sm;
+    line-height: normal;
+}
+.d-flex {
+    display: flex;
+    display: -webkit-flex;
+    flex-wrap: wrap;
+}
+.btn {
+    padding: 10px;
+    text-align: center;
+    color: $button-color;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    display: inline-block;
+    text-decoration: none;
+    &:hover {
+      background-color: transparent;
+      border: 1px solid $theme-color;
+      color: $theme-color;
+    }
+}
+.btn-primary {
+    background-color: $theme-color;
+}
+.btn-secondary {
+    background-color: $button-bg-color;
+}
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+input {
+    padding: 10px;
+    border: 1px solid #cccccc;
+}
+.hotels-icon {
+    padding-left: 25px;
+}
+.form-group {
+    position: relative;
+    margin: 5px 0;
+}
+.hotel-icon-p {
+    position: absolute;
+    left: 22px;
+    top: 32px;
+    color: $icon-color;
+}
+.location {
+    position: relative;
+}
+.pagination {
+    display: inline-block;
+}
+
+.pagination a {
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    color: $theme-color;
+}
+.hotel-star-full {
+    color: $theme-color;
+}
+.d-inline {
+    display: inline-block;
+}
+.px-15 {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.py-15px {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+.radiocontainer {
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 17px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.radiocontainer input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+.radiobtn {
+    position: absolute;
+    top: 5px;
+    left: 0;
+    height: 22px;
+    width: 22px;
+    border-radius: 50%;
+    text-align: center;
+    background-color: $icon-color;
+}
+.radiocontainer input:checked ~ .radiobtn {
+    background-color: $theme-color;
+    color: $button-color;
+}
+.w-50 {
+    width: 50%;
+}
+.text-left {
+    text-align: left;
+}
+address {
+    display: inline;
+}
+img {
+    max-width: 100%;
+    height: auto;
+}
+.wrapper {
+  border: 1px solid $theme-color;
+  padding: 15px;
+}
