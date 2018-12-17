@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { HotelService } from '../hotel.service';
+
 @Component({
   selector: 'app-hotel-search',
   templateUrl: './hotel-search.component.html',
@@ -7,13 +9,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HotelSearchComponent implements OnInit {
 
-  constructor() { }
+
+    checkInDate: string;
+    checkOutDate: string;
+    numberOfGuests: Number;
+
+  constructor(private _hotelService: HotelService) { }
 
   ngOnInit() {
+
   }
 
-  onSelect(): void {
-    alert("working");
+  onSelect(checkInVal, checkOutVal, guestNum): void {
+    this.checkInDate = checkInVal.month+"/"+ checkInVal.day+"/"+ checkInVal.year;
+    this.checkOutDate = checkOutVal.month+"/"+ checkOutVal.day+"/"+ checkOutVal.year;
+    this.numberOfGuests = guestNum;
+    this._hotelService.someMethod(this.checkInDate, this.checkOutDate, this.numberOfGuests);
   }
 
 }
