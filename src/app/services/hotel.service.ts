@@ -16,6 +16,7 @@ const httpOptions = {
 })
 export class HotelService {
   http: HttpClient;
+  private hotels;
   constructor(private httpClient: HttpClient) { }
   someMethod(checkInDate, checkOutDate, numberOfGuests) {
     this.httpClient.post("https://public-be.oski.io/hotel/v1.0/search/init",
@@ -66,7 +67,7 @@ callStatus(data) {
     result => {
       console.log(result);
       if(result['status']==="Complete"){
-        this.callResult();
+        this.callResult(data);
       }
       else{
         this.callStatus(data);
@@ -78,11 +79,11 @@ callStatus(data) {
   );
 }
 
-callResult():Observable<any>{
+callResult(data):Observable<any>{
   let returnValue;
   this.httpClient.post("https://public-be.oski.io/hotel/v1.0/search/results",
   {
-    "sessionId": "",
+    "sessionId": data.sessionId,
     "paging": {
       "pageNo": 1,
       "pageSize": 10,
@@ -127,6 +128,7 @@ callResult():Observable<any>{
       console.log("Error", error);
     }
   );
+  this.hotels = returnValue;
   return returnValue;
 }
 }
