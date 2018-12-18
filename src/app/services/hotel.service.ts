@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders } from "@angular/common/http";
 import { HttpClient } from '@angular/common/http';
-
 import { Observable} from 'rxjs';
 
 const httpOptions = {
@@ -16,72 +15,48 @@ const httpOptions = {
 })
 export class HotelService {
   http: HttpClient;
-  private hotels;
   constructor(private httpClient: HttpClient) { }
-  someMethod(checkInDate, checkOutDate, numberOfGuests) {
-    this.httpClient.post("https://public-be.oski.io/hotel/v1.0/search/init",
-    {
-      "currency": "USD",
-      "posId": "hbg3h7rf28",
-      "orderBy": "price asc, rating desc",
-      "roomOccupancies": [
-        {
-          "occupants": [
-            {
-              "type": "Adult",
-              "age": 25
-            }
-          ]
-        }
-      ],
-      "stayPeriod": {
-        "start": checkInDate,
-        "end": checkOutDate
-      },
-      "bounds": {
-        "circle": {
-          "center": {
-            "lat": 49.0097,
-            "long": 2.5479
-          },
-          "radiusKm": 50.5
-        }
+  private initRequestJson={
+    "currency": "USD",
+    "posId": "hbg3h7rf28",
+    "orderBy": "price asc, rating desc",
+    "roomOccupancies": [
+      {
+        "occupants": [
+          {
+            "type": "Adult",
+            "age": 25
+          }
+        ]
       }
+    ],
+    "stayPeriod": {
+      "start": "",
+      "end": ""
     },
-    httpOptions
-  )
-  .subscribe(
-    result => {
-      console.log(result);
-      this.callStatus(result);
-    },
-    error => {
-      console.log("Error", error);
+    "bounds": {
+      "circle": {
+        "center": {
+          "lat": 49.0097,
+          "long": 2.5479
+        },
+        "radiusKm": 50.5
+      }
     }
-  );
+  };
+
+  searchHotels(checkInDate, checkOutDate, numberOfGuests):Observable<any> {
+    this.initRequestJson.stayPeriod.start=checkInDate;
+    this.initRequestJson.stayPeriod.end=checkOutDate;
+    return this.httpClient.post("https://public-be.oski.io/hotel/v1.0/search/init",this.initRequestJson,httpOptions)
 }
 
-callStatus(data) {
-  this.httpClient.post("https://public-be.oski.io/hotel/v1.0/search/status", data, httpOptions )
-  .subscribe(
-    result => {
-      console.log(result);
-      if(result['status']==="Complete"){
-        this.callResult(data);
-      }
-      else{
-        this.callStatus(data);
-      }
-    },
-    error => {
-      console.log("Error", error);
-    }
-  );
+getStatus(data):Observable<any>{
+  return this.httpClient.post("https://public-be.oski.io/hotel/v1.0/search/status", data, httpOptions );
 }
 
-callResult(data):Observable<any>{
-  let returnValue;
-  this.httpClient.post("https://public-be.oski.io/hotel/v1.0/search/results",
+getHotels(data):Observable<any>{
+  return this.httpClient.post("https://public-be.oski.io/hotel/v1.0/search/results",
   {
     "sessionId": data.sessionId,
     "paging": {
@@ -118,17 +93,6 @@ callResult(data):Observable<any>{
       "allowedCountry": "FR"
     }
   }
-  , httpOptions )
-  .subscribe(
-    result => {
-      console.log(result);
-      returnValue= result;
-    },
-    error => {
-      console.log("Error", error);
-    }
-  );
-  this.hotels = returnValue;
-  return returnValue;
+  , httpOptions );
 }
 }

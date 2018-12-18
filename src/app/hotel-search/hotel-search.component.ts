@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
-import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router'; 
-
-import { HotelService } from '../services/hotel.service';
+import {Router } from '@angular/router';
+import { HotelsListData } from '../models/hotel-data';
 
 const now = new Date();
 
@@ -17,19 +16,17 @@ export class HotelSearchComponent implements OnInit {
   checkInDate: string;
   checkOutDate: string;
   numberOfGuests: Number;
+  hotelsListData: HotelsListData;
 
   minDate: NgbDateStruct = {year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate()};
 
-  constructor(private _hotelService: HotelService, private router: Router) { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
   }
 
-  onSelect(): void {
-    this.checkInDate = this.model.checkIn.month+"/"+ this.model.checkIn.day+"/"+ this.model.checkIn.year;
-    this.checkOutDate = this.model.checkOut.month+"/"+ this.model.checkOut.day+"/"+ this.model.checkOut.year;
-    this.numberOfGuests = this.model.guest;
-    this._hotelService.someMethod(this.checkInDate, this.checkOutDate, this.numberOfGuests);
+  onSelect(){
+    localStorage.setItem("filterCriteria", JSON.stringify(this.model));
     this.router.navigate(['/result']);
   }
 }
