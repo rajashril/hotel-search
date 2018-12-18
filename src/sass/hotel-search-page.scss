@@ -9,7 +9,7 @@ body {
     display: -webkit-flex;
     flex-wrap: wrap;
 }
-.btn {
+.btn-h {
     padding: 10px;
     text-align: center;
     color: $button-color;
@@ -124,4 +124,41 @@ img {
 .wrapper {
   border: 1px solid $theme-color;
   padding: 15px;
+}
+/**/
+.ng-invalid {
+    border-color: red;
+}
+.alert-danger {
+    color: red;
+    margin-top: 5px;
+}
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    float: left;
+    min-width: 10rem;
+    padding: .5rem 0;
+    margin: .125rem 0 0;
+    font-size: 1rem;
+    color: #212529;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: .25rem;
+}
+.main-nav {
+    background-color: #cccccc;
+    padding: 10px;
+    text-align: center;
+    margin: 0px 10px 10px 10px; 
+    a {
+        padding: 10px;
+        color: red;
+        text-decoration: none;
+    }
 }
