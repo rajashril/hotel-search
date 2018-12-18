@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import {HttpParams} from "@angular/common/http";
 import { HttpHeaders } from "@angular/common/http";
 import { HttpClient } from '@angular/common/http';
 
-import { Observable, Subject } from 'rxjs';
+import { Observable} from 'rxjs';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -18,9 +17,7 @@ const httpOptions = {
 export class HotelService {
   http: HttpClient;
   constructor(private httpClient: HttpClient) { }
-
   someMethod(checkInDate, checkOutDate, numberOfGuests) {
-
     this.httpClient.post("https://public-be.oski.io/hotel/v1.0/search/init",
     {
       "currency": "USD",
@@ -53,9 +50,9 @@ export class HotelService {
     httpOptions
   )
   .subscribe(
-    data => {
-      this.callStatus(data);
-      this.callResult();
+    result => {
+      console.log(result);
+      this.callStatus(result);
     },
     error => {
       console.log("Error", error);
@@ -64,21 +61,25 @@ export class HotelService {
 }
 
 callStatus(data) {
-  let gotStatus=false;
-  while (!gotStatus) {
-    this.httpClient.post("https://public-be.oski.io/hotel/v1.0/search/status", data, httpOptions )
-    .subscribe(
-      data1 => {
-        console.log(data1);
-        gotStatus= data1['status']=="Completed";
-      },
-      error => {
-        console.log("Error", error);
+  this.httpClient.post("https://public-be.oski.io/hotel/v1.0/search/status", data, httpOptions )
+  .subscribe(
+    result => {
+      console.log(result);
+      if(result['status']==="Complete"){
+        this.callResult();
       }
-    );
-  }
+      else{
+        this.callStatus(data);
+      }
+    },
+    error => {
+      console.log("Error", error);
+    }
+  );
 }
-callResult(){
+
+callResult():Observable<any>{
+  let returnValue;
   this.httpClient.post("https://public-be.oski.io/hotel/v1.0/search/results",
   {
     "sessionId": "",
@@ -118,12 +119,14 @@ callResult(){
   }
   , httpOptions )
   .subscribe(
-    data2 => {
-      console.log(data2);
+    result => {
+      console.log(result);
+      returnValue= result;
     },
     error => {
       console.log("Error", error);
     }
   );
+  return returnValue;
 }
 }
