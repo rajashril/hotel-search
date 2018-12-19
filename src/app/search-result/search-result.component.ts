@@ -64,7 +64,7 @@ export class SearchResultComponent implements OnInit {
       this.model.guest = 1;
     } 
     this.numberOfGuests = this.model.guest;
-    let guestNumber: Number;
+    let guestNumber: any;
     guestNumber = this.decimalPipe.transform(this.model.guest);
     
     //make occupants array
@@ -73,7 +73,7 @@ export class SearchResultComponent implements OnInit {
         "type": "Adult",
         "age": 25
       });
-      guestNumber--;
+      guestNumber = guestNumber - 1;
     }
     console.log(this.occupantsArr);
   }
