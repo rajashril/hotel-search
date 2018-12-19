@@ -1,15 +1,13 @@
-body {
-    background-color: $bg-color;
-    color: $text-color;
-    font-size: $font-sm;
-    line-height: normal;
+%d-inline {
+    display: inline-block;
 }
-.d-flex {
-    display: flex;
-    display: -webkit-flex;
-    flex-wrap: wrap;
+%w-50 {
+    width: 50%;
 }
-.btn-h {
+%mb-15 {
+    margin-bottom: 15px;
+}
+%btn-h {
     padding: 10px;
     text-align: center;
     color: $button-color;
@@ -18,16 +16,38 @@ body {
     cursor: pointer;
     display: inline-block;
     text-decoration: none;
+    transition: 0.3s linear all;
     &:hover {
       background-color: transparent;
       border: 1px solid $theme-color;
       color: $theme-color;
     }
 }
+body {
+    background-color: $bg-color;
+    color: $text-color;
+    font-size: $font-sm;
+    line-height: normal;
+    font-family: 'Arial',sans-serif;
+}
+* {
+    box-sizing: border-box;
+}
+.wrapper {
+  border: 1px solid $theme-color;
+  padding: 15px;
+}
+.d-flex {
+    display: flex;
+    display: -webkit-flex;
+    flex-wrap: wrap;
+}
 .btn-primary {
+    @extend %btn-h;
     background-color: $theme-color;
 }
 .btn-secondary {
+    @extend %btn-h;
     background-color: $button-bg-color;
 }
 label {
@@ -36,14 +56,26 @@ label {
 }
 input {
     padding: 10px;
-    border: 1px solid #cccccc;
-}
-.hotels-icon {
-    padding-left: 25px;
+    border: 1px solid $icon-color;
 }
 .form-group {
     position: relative;
     margin: 5px 0;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+address {
+    display: inline;
+}
+img {
+    max-width: 100%;
+    height: auto;
+}
+.divider {
+    margin: 15px 0 25px;
+}
+.hotels-icon {
+    padding-left: 25px;
 }
 .hotel-icon-p {
     position: absolute;
@@ -56,27 +88,15 @@ input {
 }
 .pagination {
     display: inline-block;
-}
-
-.pagination a {
-    float: left;
-    padding: 8px 16px;
-    text-decoration: none;
-    color: $theme-color;
+    a {
+        float: left;
+        padding: 8px 16px;
+        text-decoration: none;
+        color: $theme-color;
+    }
 }
 .hotel-star-full {
     color: $theme-color;
-}
-.d-inline {
-    display: inline-block;
-}
-.px-15 {
-    padding-left: 15px;
-    padding-right: 15px;
-}
-.py-15px {
-    padding-top: 15px;
-    padding-bottom: 15px;
 }
 .radiocontainer {
     position: relative;
@@ -88,11 +108,17 @@ input {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-}
-.radiocontainer input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
+    @extend %d-inline;
+
+    input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        &:checked ~ .radiobtn {
+            background-color: $theme-color;
+            color: $button-color;
+        }
+    }
 }
 .radiobtn {
     position: absolute;
@@ -103,34 +129,17 @@ input {
     border-radius: 50%;
     text-align: center;
     background-color: $icon-color;
+    padding: 1px;
+    &:hover {
+        background-color: $theme-color;
+        color: $button-color;
+    }
 }
-.radiocontainer input:checked ~ .radiobtn {
-    background-color: $theme-color;
-    color: $button-color;
-}
-.w-50 {
-    width: 50%;
-}
-.text-left {
-    text-align: left;
-}
-address {
-    display: inline;
-}
-img {
-    max-width: 100%;
-    height: auto;
-}
-.wrapper {
-  border: 1px solid $theme-color;
-  padding: 15px;
-}
-/**/
 .ng-invalid {
-    border-color: red;
+    border-color: $danger-color;
 }
 .alert-danger {
-    color: red;
+    color: $danger-color;
     margin-top: 5px;
 }
 .dropdown-menu {
@@ -143,22 +152,97 @@ img {
     padding: .5rem 0;
     margin: .125rem 0 0;
     font-size: 1rem;
-    color: #212529;
+    color: $text-color;
     text-align: left;
     list-style: none;
-    background-color: #fff;
+    background-color: $button-color;
     background-clip: padding-box;
-    border: 1px solid rgba(0,0,0,.15);
+    border: 1px solid $icon-color;
     border-radius: .25rem;
 }
 .main-nav {
-    background-color: #cccccc;
+    background-color: $icon-color;
     padding: 10px;
     text-align: center;
     margin: 0px 10px 10px 10px; 
     a {
         padding: 10px;
-        color: red;
+        color: $danger-color;
         text-decoration: none;
+    }
+}
+.hotelListImage {
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 200px;
+    border: 1px solid #ccc;
+}
+.searchHotels {
+    margin-top: 20px;
+}
+.hotelResult {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.hotelList {
+    @extend .d-flex;
+    margin-bottom: 15px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    padding: 15px;
+    transition: 0.5s linear all;
+    &:hover {
+        box-shadow: 0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    }
+}
+.hotelListFirstColumn {
+    @extend .d-flex;
+    width: 70%;
+}
+.hotelListImageContainer {
+    @extend %w-50;
+}
+.hotelListRating {
+    @extend %w-50;
+    padding-left: 15px;
+    padding-right: 15px;
+    h3 {
+        margin: 10px 0;
+        font-weight: normal;
+    }
+}
+.hotelListSecondColumn {
+    @extend %justify-content-center;
+    @extend .d-flex;
+    width: 30%;
+}
+.hotelListPriceDetails {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.hotelListPrice {
+    margin-bottom: 15px;
+    span {
+        font-size: $font-lg;
+    }
+}
+.hotelListShowRoomsBtn {
+    @extend %btn-h;
+    @extend .btn-primary;
+}
+.hotelSearchBtn {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.spiner {
+    img {
+        margin: 0 auto;
+        display: -webkit-box;
     }
 }

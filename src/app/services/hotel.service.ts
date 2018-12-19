@@ -15,9 +15,9 @@ const httpOptions = {
 })
 export class HotelService {
   http: HttpClient;
-  model:any={};
+  model:any = {};
   constructor(private httpClient: HttpClient) { }
-  private initRequestJson={
+  private initRequestJson = {
     "currency": "USD",
     "posId": "hbg3h7rf28",
     "orderBy": "price asc, rating desc",
@@ -46,9 +46,10 @@ export class HotelService {
     }
   };
 
-  searchHotels(checkInDate, checkOutDate, numberOfGuests):Observable<any> {
-    this.initRequestJson.stayPeriod.start=checkInDate;
-    this.initRequestJson.stayPeriod.end=checkOutDate;
+  searchHotels(checkInDate, checkOutDate, occupantsArr):Observable<any> {
+    this.initRequestJson.stayPeriod.start = checkInDate;
+    this.initRequestJson.stayPeriod.end = checkOutDate;
+    this.initRequestJson.roomOccupancies[0] = occupantsArr;
     return this.httpClient.post("https://public-be.oski.io/hotel/v1.0/search/init",this.initRequestJson,httpOptions)
 }
 

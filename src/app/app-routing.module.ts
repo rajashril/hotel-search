@@ -5,10 +5,10 @@ import { HotelSearchComponent } from './hotel-search/hotel-search.component';
 import { SearchResultComponent } from './search-result/search-result.component';
 
 const routes: Routes = [
-  { path: 'serach', component: HotelSearchComponent },
+  { path: 'search', component: HotelSearchComponent },
   { path: 'result', component: SearchResultComponent },
   { path: '',
-    redirectTo: '/serach',
+    redirectTo: '/search',
     pathMatch: 'full'
   }
 ];

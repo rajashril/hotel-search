@@ -2,12 +2,12 @@
     <header>
         <form (ngSubmit)="onSubmit()" #searchForm="ngForm">
             <div class="d-flex">
-                <div class="form-group w-200 px-15">
+                <div class="form-group">
                     <label for="location1">Where are you going?</label>
                     <input type="text" placeholder="Enter Location" class="location hotels-icon" id="location1"/>
                     <i class="hotel-location hotel-icon-p"></i>
                 </div>
-                <div class="form-group w-200 px-15">
+                <div class="form-group">
                     <label for="checkIn">Check In</label>
                     <input type="text" placeholder="Check In"
                         [(ngModel)]="model.checkIn"
@@ -25,7 +25,7 @@
                         Check in date is required
                     </div>
                 </div>
-                <div class="form-group w-200 px-15">
+                <div class="form-group">
                     <label for="checkOut">Check-Out</label>
                     <input type="text" placeholder="Check-Out"
                         [(ngModel)]="model.checkOut"
@@ -44,33 +44,36 @@
                     </div>
                 </div>
 
-                <div class="form-group w-200 px-15">
+                <div class="form-group">
                     <label>Guest</label>
-                    <label class="d-inline radiocontainer" for="1">
+                    <label class="radiocontainer" for="1">
                         <input type="radio" name="guest" id="1" value="1" [(ngModel)]="model.guest" #guest="ngModel">
                         <span class="radiobtn">1</span>
                     </label>
-                    <label class="d-inline radiocontainer" for="2">
+                    <label class="radiocontainer" for="2">
                         <input type="radio" name="guest" id="2" value="2" [(ngModel)]="model.guest" #guest="ngModel">
                         <span class="radiobtn">2</span>
                     </label>
-                    <label class="d-inline radiocontainer" for="3">
+                    <label class="radiocontainer" for="3">
                         <input type="radio" name="guest" id="3" value="3" [(ngModel)]="model.guest" #guest="ngModel">
                         <span class="radiobtn">3</span>
                     </label>
-                    <label class="d-inline radiocontainer" for="3plus">
-                        <input type="radio" name="guest" id="3plus" value="3+" [(ngModel)]="model.guest" #guest="ngModel">
+                    <label class="radiocontainer" for="3plus">
+                        <input type="radio" name="guest" id="3plus" value="4" [(ngModel)]="model.guest" #guest="ngModel">
                         <span class="radiobtn">3+</span>
                     </label>
                 </div>
-                <div class="w-200 px-15 py-15px">
-                    <button type="button" class="btn-h btn-secondary search-hotels" [disabled]="!searchForm.form.valid" (click)="triggerSearch()">Search for Hotels</button>
+                <div class="w-200 px-15 py-15">
+                    <button type="button" class="btn-primary searchHotels" [disabled]="!searchForm.form.valid" (click)="triggerSearch()">Search for Hotels</button>
                 </div>
             </div>
         </form>
     </header>
-    <div class="results px-15" *ngIf="hotelsListData">
-        <h2>180 hotels in Las Vegas, NV on April 22nd - April 24th for 1 Adult(s)</h2>
+    <div *ngIf="showSpinner" class="spiner">
+        <img src="{{loadingIcon}}" alt="Loading icon">
+    </div>
+    <div class="hotelResult" *ngIf="hotelsListData">
+        <h2>{{hotelCount}} hotels in Las Vegas, NV on {{checkInDate}} - {{checkOutDate}} for {{numberOfGuests}} Adult(s)</h2>
         <div class="pagination">
             <a href="#">&laquo;</a>
             <a href="#">1</a>
@@ -82,28 +85,29 @@
             <a href="#">&raquo;</a>
         </div>
         <hr class="divider"/>
-
-        <div class="d-flex" *ngFor="let hotel of hotelsListData">
-            <div class="w-50 d-flex">
-                <div class="w-50">
-                    <img src="https://d3mj096p5q0e20.cloudfront.net/fi/HCM/86516/a3d3f137_z.jpg" alt="" class="" />
+        <div class="hotelList" *ngFor="let hotel of hotelsListData">
+            <div class="hotelListFirstColumn">
+                <div class="hotelListImageContainer">
+                    <div class="hotelListImage" [style.backgroundImage]="'url('+ hotel.images[0].url +')'"></div>
                 </div>
-                <div class="w-50">
+                <div class="hotelListRating">                    
                     <i class="hotel-star-full"></i>
                     <i class="hotel-star-full"></i>
                     <i class="hotel-star-full"></i>
                     <i class="hotel-star-full"></i>
                     <i class="hotel-star-full"></i>
-                    <h3>{{hotel.name}}</h3>
-                    <i class="hotel-location"></i> <address>address</address>
+                    <h3>{{ hotel.name }}</h3>
+                    <i class="hotel-location"></i> <address>{{ hotel.contact.address.line1 +", "+ hotel.contact.address.city.name +", "+ hotel.contact.address.state.name +", "+ hotel.contact.address.postalCode }}</address>
                 </div>
             </div>
-            <div class="w-50">
-                <div class="text-left">
-                    from<br/>
-                    $367 /nights<br/>
-                    Total: $367<br/>
-                    <a href="" title="" class="btn-h btn-primary">Show rooms</a>
+            <div class="hotelListSecondColumn">
+                <div class="hotelListPriceDetails">
+                    <div class="hotelListPrice">
+                        from<br/>
+                        <span>{{ hotel.fare.baseFare | currency : hotel.fare.currency }}</span> / nights<br/>
+                        Total: {{ ( hotel.fare.totalFare * numberOfGuests )  | currency : hotel.fare.currency }}<br/>
+                    </div>
+                    <a href="" title="Show Rooms" class="hotelListShowRoomsBtn">Show rooms</a>
                 </div>
             </div>
         </div>
