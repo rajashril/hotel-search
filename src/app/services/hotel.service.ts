@@ -46,55 +46,58 @@ export class HotelService {
     }
   };
 
+  //get session ID from init call
   searchHotels(checkInDate, checkOutDate, occupantsArr):Observable<any> {
     this.initRequestJson.stayPeriod.start = checkInDate;
     this.initRequestJson.stayPeriod.end = checkOutDate;
     this.initRequestJson.roomOccupancies[0] = occupantsArr;
     return this.httpClient.post("https://public-be.oski.io/hotel/v1.0/search/init",this.initRequestJson,httpOptions)
-}
-
-getStatus(data):Observable<any>{
-  return this.httpClient.post("https://public-be.oski.io/hotel/v1.0/search/status", data, httpOptions );
-}
-
-getHotels(data):Observable<any>{
-  return this.httpClient.post("https://public-be.oski.io/hotel/v1.0/search/results",
-  {
-    "sessionId": data.sessionId,
-    "paging": {
-      "pageNo": 1,
-      "pageSize": 10,
-      "orderBy": "price asc, rating desc"
-    },
-    "optionalDataPrefs": [
-      "All"
-    ],
-    "currency": "USD",
-    "contentPrefs": [
-      "Basic",
-      "Activities",
-      "Amenities",
-      "Policies",
-      "AreaAttractions",
-      "Descriptions",
-      "Images",
-      "CheckinCheckoutPolicy",
-      "All"
-    ],
-    "filters": {
-      "minHotelPrice": 1,
-      "maxHotelPrice": 10000,
-      "minHotelRating": 1,
-      "maxHotelRating": 5,
-      "hotelChains": [
-        "Novotel",
-        "Marriott",
-        "Hilton",
-        "Accor"
-      ],
-      "allowedCountry": "FR"
-    }
   }
-  , httpOptions );
-}
+
+  //get hotel status
+  getStatus(data):Observable<any>{
+    return this.httpClient.post("https://public-be.oski.io/hotel/v1.0/search/status", data, httpOptions );
+  }
+
+  //get hotel search results
+  getHotels(data):Observable<any>{
+    return this.httpClient.post("https://public-be.oski.io/hotel/v1.0/search/results",
+    {
+      "sessionId": data.sessionId,
+      "paging": {
+        "pageNo": 1,
+        "pageSize": 10,
+        "orderBy": "price asc, rating desc"
+      },
+      "optionalDataPrefs": [
+        "All"
+      ],
+      "currency": "USD",
+      "contentPrefs": [
+        "Basic",
+        "Activities",
+        "Amenities",
+        "Policies",
+        "AreaAttractions",
+        "Descriptions",
+        "Images",
+        "CheckinCheckoutPolicy",
+        "All"
+      ],
+      "filters": {
+        "minHotelPrice": 1,
+        "maxHotelPrice": 10000,
+        "minHotelRating": 1,
+        "maxHotelRating": 5,
+        "hotelChains": [
+          "Novotel",
+          "Marriott",
+          "Hilton",
+          "Accor"
+        ],
+        "allowedCountry": "FR"
+      }
+    }
+    , httpOptions );
+  }
 }

@@ -60,7 +60,7 @@ input {
 }
 .form-group {
     position: relative;
-    margin: 5px 0;    
+    margin: 5px 0;
     padding: 0 15px;
 }
 address {
@@ -159,24 +159,13 @@ img {
     border: 1px solid $icon-color;
     border-radius: .25rem;
 }
-.main-nav {
-    background-color: $icon-color;
-    padding: 10px;
-    text-align: center;
-    margin: 0px 10px 10px 10px; 
-    a {
-        padding: 10px;
-        color: $danger-color;
-        text-decoration: none;
-    }
-}
 .hotelListImage {
     background-position: center center;
     background-size: cover;
     background-repeat: no-repeat;
     width: 100%;
     height: 200px;
-    border: 1px solid #ccc;
+    border: 1px solid $icon-color;
 }
 .searchHotels {
     margin-top: 20px;
@@ -187,7 +176,7 @@ img {
 .hotelList {
     @extend .d-flex;
     margin-bottom: 15px;
-    border: 1px solid #ccc;
+    border: 1px solid $icon-color;
     padding: 15px;
     transition: 0.5s linear all;
     &:hover {
@@ -235,4 +224,9 @@ img {
         margin: 0 auto;
         display: -webkit-box;
     }
+}
+.errorMessage {
+    padding: 15px;
+    background-color: rgba(249, 51, 17, 0.21);
+    margin: 30px 15px 10px;
 }

@@ -15,27 +15,27 @@ const now = new Date();
 })
 export class SearchResultComponent implements OnInit {
 
-  model: any = {};
-  checkInDate: string;
-  checkOutDate: string;
-  numberOfGuests: Number;
-  showSpinner: boolean = false;
-  private loadingIcon = require("../../img/Loading_icon.gif");
+  private model: any = {};
+  private checkInDate: string;
+  private checkOutDate: string;
+  private numberOfGuests: Number;
+  private showSpinner: boolean = false;
+  private errorMessage;
+  private showErrorMessage:boolean=false;
+  private hotelsListData:[];
+  private hotelCount;
+  private occupantsArr = {
+    occupants: []
+  };
 
   minDate: NgbDateStruct = {year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate()};
 
   constructor(private _hotelService: HotelService, private router: Router, private decimalPipe: DecimalPipe) { }
 
-  hotelsListData:[];
-  hotelCount;
-  occupantsArr = {
-    occupants: []
-  };
-
   ngOnInit() {
+    this.showErrorMessage=false;
     this.model = this._hotelService.model;
     if(this.model.checkIn != undefined && this.model.checkOut != undefined){
-      this.showLoadingSpinner();
       this.triggerSearch();
     } else {
       this.router.navigate(['/search']);
@@ -44,68 +44,64 @@ export class SearchResultComponent implements OnInit {
 
   //trigger the search init
   triggerSearch(){
+    this.showErrorMessage=false;
+    this.showLoadingSpinner();
     this.initializeFilterCriteria();
     this._hotelService.searchHotels(this.checkInDate, this.checkOutDate, this.occupantsArr).subscribe(
       result => {
         this.callStatus(result);
       },
       error => {
-        console.log("Error", error);
+        this.showErrorMessage=true;
+        this.errorMessage = error.error.message;
+        this.hideLoadingSpinner();
       }
     );
-  } 
+  }
 
   //format and initialise hotel filter inputs
   initializeFilterCriteria(){
     this._hotelService.model = this.model;
     this.checkInDate = this.model.checkIn.month+"/"+ this.model.checkIn.day+"/"+ this.model.checkIn.year;
-    this.checkOutDate = this.model.checkOut.month+"/"+ this.model.checkOut.day+"/"+ this.model.checkOut.year;   
+    this.checkOutDate = this.model.checkOut.month+"/"+ this.model.checkOut.day+"/"+ this.model.checkOut.year;
     if(this.model.guest == undefined ){
       this.model.guest = 1;
-    } 
+    }
     this.numberOfGuests = this.model.guest;
     let guestNumber: any;
     guestNumber = this.decimalPipe.transform(this.model.guest);
-    
+
     //make occupants array
     while(guestNumber != 0){
-      this.occupantsArr.occupants.push({ 
+      this.occupantsArr.occupants.push({
         "type": "Adult",
         "age": 25
       });
       guestNumber = guestNumber - 1;
     }
-    console.log(this.occupantsArr);
   }
 
   //check status of hotels
   callStatus(data){
     this._hotelService.getStatus(data).subscribe(
       result1 => {
-        console.log(result1);
         if(result1['status']==="Complete"){
-          //if status of hotels is completed then call result 
+          //if status of hotels is completed then call result
           this._hotelService.getHotels(data)
           .subscribe(
             result2 => {
-              this.hotelsListData = result2.hotels;
               this.hotelCount = result2.hotels.length;
               this.hideLoadingSpinner();
-              // for(let i=0; i< this.hotelsListData.length-1; i++){
-              //   let ratings: Number;
-              //   let ratingArr: [];
-              //   ratings = this.decimalPipe.transform(this.hotelsListData[i].rating);
-                
-              //   for(let j=0; j< ratings-1; j++){
-              //     ratingArr.push(j);
-              //   }
-              //   this.hotelsListData[i].rating = ratingArr;
-              //   //console.log(rating);
-              // }
-              console.log(this.hotelsListData);
+              for(let i=0; i< result2.hotels.length; i++){
+                let newRattingArray = new Array(result2.hotels[i].rating);
+                result2.hotels[i].rattingArray = newRattingArray;
+              }
+              this.hotelsListData = result2.hotels;
             },
             error => {
-              console.log("Error", error);
+              this.showErrorMessage=true;
+              this.errorMessage = error.error.message;
+              this.hideLoadingSpinner();
             }
           );
         }
@@ -115,7 +111,9 @@ export class SearchResultComponent implements OnInit {
         }
       },
       error => {
-        console.log("Error", error);
+        this.showErrorMessage=true;
+        this.errorMessage = error.error.message;
+        this.hideLoadingSpinner();
       }
     );
   }

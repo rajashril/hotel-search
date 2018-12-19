@@ -70,9 +70,10 @@
         </form>
     </header>
     <div *ngIf="showSpinner" class="spiner">
-        <img src="{{loadingIcon}}" alt="Loading icon">
+        <img src="assets/img/Loading_icon.gif" alt="Loading icon">
     </div>
-    <div class="hotelResult" *ngIf="hotelsListData">
+    <!-- <div class="alert-danger errorMessage" *ngIf="errorMessage">{{errorMessage}}<div> -->
+    <div class="hotelResult" *ngIf="hotelsListData && !showSpinner">
         <h2>{{hotelCount}} hotels in Las Vegas, NV on {{checkInDate}} - {{checkOutDate}} for {{numberOfGuests}} Adult(s)</h2>
         <div class="pagination">
             <a href="#">&laquo;</a>
@@ -83,19 +84,15 @@
             <a href="#">5</a>
             <a href="#">6</a>
             <a href="#">&raquo;</a>
-        </div>
+          </div>
         <hr class="divider"/>
         <div class="hotelList" *ngFor="let hotel of hotelsListData">
             <div class="hotelListFirstColumn">
                 <div class="hotelListImageContainer">
                     <div class="hotelListImage" [style.backgroundImage]="'url('+ hotel.images[0].url +')'"></div>
                 </div>
-                <div class="hotelListRating">                    
-                    <i class="hotel-star-full"></i>
-                    <i class="hotel-star-full"></i>
-                    <i class="hotel-star-full"></i>
-                    <i class="hotel-star-full"></i>
-                    <i class="hotel-star-full"></i>
+                <div class="hotelListRating">
+                    <i *ngFor="let rating of hotel.rattingArray" class="hotel-star-full"></i>
                     <h3>{{ hotel.name }}</h3>
                     <i class="hotel-location"></i> <address>{{ hotel.contact.address.line1 +", "+ hotel.contact.address.city.name +", "+ hotel.contact.address.state.name +", "+ hotel.contact.address.postalCode }}</address>
                 </div>
