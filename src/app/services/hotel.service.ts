@@ -15,6 +15,7 @@ const httpOptions = {
 })
 export class HotelService {
   http: HttpClient;
+  model:any={};
   constructor(private httpClient: HttpClient) { }
   private initRequestJson={
     "currency": "USD",

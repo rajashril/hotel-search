@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 import {Router } from '@angular/router';
+import { HotelService } from '../services/hotel.service';
 import { HotelsListData } from '../models/hotel-data';
 
 const now = new Date();
@@ -20,13 +21,14 @@ export class HotelSearchComponent implements OnInit {
 
   minDate: NgbDateStruct = {year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate()};
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,private _hotelService: HotelService) { }
 
   ngOnInit() {
+    this.model = this._hotelService.model;
   }
 
   onSelect(){
-    localStorage.setItem("filterCriteria", JSON.stringify(this.model));
+    this._hotelService.model=this.model;
     this.router.navigate(['/result']);
   }
 }

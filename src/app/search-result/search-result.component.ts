@@ -23,12 +23,12 @@ export class SearchResultComponent implements OnInit {
   hotelsListData:[];
 
   ngOnInit() {
-    this.model = JSON.parse(localStorage.getItem("filterCriteria"));
-    this.triggerSearch()
+    this.model = this._hotelService.model;
+    this.triggerSearch();
   }
 
   initializeFilterCriteria(){
-    localStorage.setItem("filterCriteria", JSON.stringify(this.model));
+    this._hotelService.model=this.model;
     this.checkInDate = this.model.checkIn.month+"/"+ this.model.checkIn.day+"/"+ this.model.checkIn.year;
     this.checkOutDate = this.model.checkOut.month+"/"+ this.model.checkOut.day+"/"+ this.model.checkOut.year;
     this.numberOfGuests = this.model.guest;
