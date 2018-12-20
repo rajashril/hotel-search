@@ -18,7 +18,8 @@
                 [minDate]="minDate"
                 #checkIn="ngModel"
                 #checkIn1="ngbDatepicker"
-                (click)="checkIn1.toggle()" required/>
+                (click)="checkIn1.toggle()" 
+                (ngModelChange)="onCheckInDateSelect()" required/>
             <i class="hotel-calendar hotel-icon-p"></i>
             <div *ngIf="checkIn.invalid && checkIn.touched"
                  class="alert alert-danger">
@@ -33,7 +34,7 @@
                 id="checkOut"
                 name="checkOut"
                 ngbDatepicker
-                [minDate]="minDate"
+                [minDate]="CheckOutMinDate"
                 #checkOut="ngModel"
                 #checkOut1="ngbDatepicker"
                 (click)="checkOut1.toggle()" required/>

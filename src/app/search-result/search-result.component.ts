@@ -27,6 +27,7 @@ export class SearchResultComponent implements OnInit {
   private occupantsArr = {
     occupants: []
   };
+  CheckOutMinDate: NgbDateStruct;
 
   minDate: NgbDateStruct = {year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate()};
 
@@ -128,4 +129,11 @@ export class SearchResultComponent implements OnInit {
     this.showSpinner = false;
   }
 
+  //min date for check out date
+  onCheckInDateSelect(){   
+    let CheckInDateFormat = new Date(this.model.checkIn.year, this.model.checkIn.month-1, this.model.checkIn.day);
+    var CheckInNextDate = new Date(CheckInDateFormat);
+    CheckInNextDate.setDate(CheckInDateFormat.getDate()+1);      
+    this.CheckOutMinDate = { year: CheckInNextDate.getFullYear(), month : CheckInNextDate.getMonth() + 1, day: CheckInNextDate.getDate() };
+  }
 }

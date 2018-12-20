@@ -50,6 +50,8 @@ body {
     @extend %btn-h;
     background-color: $button-bg-color;
 }
+
+//search form style
 label {
     display: block;
     margin-bottom: 5px;
@@ -62,16 +64,6 @@ input {
     position: relative;
     margin: 5px 0;
     padding: 0 15px;
-}
-address {
-    display: inline;
-}
-img {
-    max-width: 100%;
-    height: auto;
-}
-.divider {
-    margin: 15px 0 25px;
 }
 .hotels-icon {
     padding-left: 25px;
@@ -94,21 +86,17 @@ img {
         color: $theme-color;
     }
 }
-.hotel-star-full {
-    color: $theme-color;
-}
 .radiocontainer {
+    @extend %d-inline;
     position: relative;
     padding-left: 35px;
     margin-bottom: 12px;
     cursor: pointer;
-    font-size: 17px;
+    font-size: $font-md;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
-    user-select: none;
-    @extend %d-inline;
-
+    user-select: none;    
     input {
         position: absolute;
         opacity: 0;
@@ -143,35 +131,27 @@ img {
 }
 .dropdown-menu {
     position: absolute;
-    top: 100%;
-    left: 0;
     z-index: 1000;
     float: left;
     min-width: 10rem;
-    padding: .5rem 0;
     margin: .125rem 0 0;
-    font-size: 1rem;
     color: $text-color;
-    text-align: left;
-    list-style: none;
     background-color: $button-color;
-    background-clip: padding-box;
-    border: 1px solid $icon-color;
-    border-radius: .25rem;
-}
-.hotelListImage {
-    background-position: center center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    width: 100%;
-    height: 200px;
     border: 1px solid $icon-color;
 }
 .searchHotels {
     margin-top: 20px;
 }
+.hotelSearchBtn {
+    padding: 15px;
+}
+
+//hotel result listing style
 .hotelResult {
     padding: 0 15px;
+}
+.divider {
+    margin: 15px 0 25px;
 }
 .hotelList {
     @extend .d-flex;
@@ -190,6 +170,18 @@ img {
 .hotelListImageContainer {
     @extend %w-50;
 }
+.hotelListImage {
+    background-position: center center;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 200px;
+    border: 1px solid $icon-color;
+    transition: 0.3s linear all;
+    &:hover {        
+        background-size: 120% 120%;        
+    }
+}
 .hotelListRating {
     @extend %w-50;
     padding: 0 15px;
@@ -197,6 +189,12 @@ img {
         margin: 10px 0;
         font-weight: normal;
     }
+}
+.hotel-star-full {
+    color: $theme-color;
+}
+address {
+    display: inline;
 }
 .hotelListSecondColumn {
     @extend %justify-content-center;
@@ -208,6 +206,7 @@ img {
 }
 .hotelListPrice {
     margin-bottom: 15px;
+    line-height: 26px;
     span {
         font-size: $font-lg;
     }
@@ -215,9 +214,6 @@ img {
 .hotelListShowRoomsBtn {
     @extend %btn-h;
     @extend .btn-primary;
-}
-.hotelSearchBtn {
-    padding: 15px;
 }
 .spiner {
     img {
