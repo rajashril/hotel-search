@@ -21,9 +21,9 @@ export class SearchResultComponent implements OnInit {
   private numberOfGuests: Number;
   private showSpinner: boolean = false;
   private errorMessage;
-  private showErrorMessage:boolean=false;
   private hotelsListData:[];
   private hotelCount;
+  private response;
   private occupantsArr = {
     occupants: []
   };
@@ -34,27 +34,25 @@ export class SearchResultComponent implements OnInit {
   constructor(private _hotelService: HotelService, private router: Router, private decimalPipe: DecimalPipe) { }
 
   ngOnInit() {
-    this.showErrorMessage=false;
     this.model = this._hotelService.model;
     if(this.model.checkIn != undefined && this.model.checkOut != undefined){
-      this.triggerSearch();
+      this.triggerSearch(1);
     } else {
       this.router.navigate(['/search']);
     }
   }
 
   //trigger the search init
-  triggerSearch(){
-    this.showErrorMessage=false;
+  triggerSearch(pageNumber){
     this.showLoadingSpinner();
     this.initializeFilterCriteria();
     this._hotelService.searchHotels(this.checkInDate, this.checkOutDate, this.occupantsArr).subscribe(
       result => {
-        this.callStatus(result);
+        this.callStatus(result, pageNumber);
       },
       error => {
-        this.showErrorMessage=true;
         this.errorMessage = error.error.message;
+        alert(this.errorMessage);
         this.hideLoadingSpinner();
       }
     );
@@ -83,37 +81,39 @@ export class SearchResultComponent implements OnInit {
   }
 
   //check status of hotels
-  callStatus(data){
+  callStatus(data, pageNumber){
     this._hotelService.getStatus(data).subscribe(
       result1 => {
         if(result1['status']==="Complete"){
           //if status of hotels is completed then call result
-          this._hotelService.getHotels(data)
+          this._hotelService.getHotels(data, pageNumber)
           .subscribe(
             result2 => {
-              this.hotelCount = result2.hotels.length;
+              this.hotelCount = result2.paging.totalRecords;
               this.hideLoadingSpinner();
+              result2.pages = new Array(Math.ceil(result2.paging.totalRecords/result2.paging.pageSize));
               for(let i=0; i< result2.hotels.length; i++){
                 let newRattingArray = new Array(result2.hotels[i].rating);
                 result2.hotels[i].rattingArray = newRattingArray;
               }
               this.hotelsListData = result2.hotels;
+              this.response=result2;
             },
             error => {
-              this.showErrorMessage=true;
               this.errorMessage = error.error.message;
+              alert(this.errorMessage);
               this.hideLoadingSpinner();
             }
           );
         }
         else {
           //if status is inpogress then call method again
-          this.callStatus(data);
+          this.callStatus(data, pageNumber);
         }
       },
       error => {
-        this.showErrorMessage=true;
         this.errorMessage = error.error.message;
+        alert(this.errorMessage);
         this.hideLoadingSpinner();
       }
     );
@@ -130,10 +130,14 @@ export class SearchResultComponent implements OnInit {
   }
 
   //min date for check out date
-  onCheckInDateSelect(){   
+  onCheckInDateSelect(){
     let CheckInDateFormat = new Date(this.model.checkIn.year, this.model.checkIn.month-1, this.model.checkIn.day);
     var CheckInNextDate = new Date(CheckInDateFormat);
-    CheckInNextDate.setDate(CheckInDateFormat.getDate()+1);      
+    CheckInNextDate.setDate(CheckInDateFormat.getDate()+1);
     this.CheckOutMinDate = { year: CheckInNextDate.getFullYear(), month : CheckInNextDate.getMonth() + 1, day: CheckInNextDate.getDate() };
+  }
+
+  showNOtImplementedAlert(){
+    alert("Not implemented yet");
   }
 }

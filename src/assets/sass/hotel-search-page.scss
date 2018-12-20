@@ -85,6 +85,14 @@ input {
         text-decoration: none;
         color: $theme-color;
     }
+    a.active {
+      background-color: $theme-color;
+      color: $bg-color;
+    }
+    a.disable {
+      pointer-events: none;
+      color: $icon-color;
+    }
 }
 .radiocontainer {
     @extend %d-inline;
@@ -96,7 +104,7 @@ input {
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
-    user-select: none;    
+    user-select: none;
     input {
         position: absolute;
         opacity: 0;
@@ -147,6 +155,11 @@ input {
 }
 
 //hotel result listing style
+header {
+    padding: 10px 0;
+    border: 2px solid $theme-color;
+    border-top: 1px solid $icon-color;
+}
 .hotelResult {
     padding: 0 15px;
 }
@@ -178,8 +191,8 @@ input {
     height: 200px;
     border: 1px solid $icon-color;
     transition: 0.3s linear all;
-    &:hover {        
-        background-size: 120% 120%;        
+    &:hover {
+        background-size: 120% 120%;
     }
 }
 .hotelListRating {

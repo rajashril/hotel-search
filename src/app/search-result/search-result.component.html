@@ -37,7 +37,7 @@
                         [minDate]="CheckOutMinDate"
                         #checkOut="ngModel"
                         #checkOut1="ngbDatepicker"
-                        (click)="checkOut1.toggle()" required/>
+                        (click)="checkOut1.toggle()" (focus)="onCheckInDateSelect()" required/>
                     <i class="hotel-calendar hotel-icon-p"></i>
                     <div *ngIf="checkOut.invalid && checkOut.touched"
                         class="alert alert-danger">
@@ -65,7 +65,7 @@
                     </label>
                 </div>
                 <div class="w-200 px-15 py-15">
-                    <button type="button" class="btn-primary searchHotels" [disabled]="!searchForm.form.valid" (click)="triggerSearch()">Search for Hotels</button>
+                    <button type="button" class="btn-primary searchHotels" [disabled]="!searchForm.form.valid" (click)="triggerSearch(1)">Search for Hotels</button>
                 </div>
             </div>
         </form>
@@ -73,18 +73,14 @@
     <div *ngIf="showSpinner" class="spiner">
         <img src="assets/img/Loading_icon.gif" alt="Loading icon">
     </div>
-    <!-- <div class="alert-danger errorMessage" *ngIf="errorMessage">{{errorMessage}}<div> -->
     <div class="hotelResult" *ngIf="hotelsListData && !showSpinner">
         <h2>{{hotelCount}} hotels in Las Vegas, NV on {{checkInDate}} - {{checkOutDate}} for {{numberOfGuests}} Adult(s)</h2>
-        <div class="pagination">
-            <a href="#">&laquo;</a>
-            <a href="#">1</a>
-            <a href="#">2</a>
-            <a href="#">3</a>
-            <a href="#">4</a>
-            <a href="#">5</a>
-            <a href="#">6</a>
-            <a href="#">&raquo;</a>
+        <div class="pagination" *ngIf="response.pages?.length > 1">
+            <a href="javascript:void(0);" [className]="response.paging.pageNumber == 1 ? 'disable' : 'enable'" (click)="triggerSearch(1)">&lt;&lt;</a>
+            <a href="javascript:void(0);" [className]="response.paging.pageNumber == 1 ? 'disable' : 'enable'" (click)="triggerSearch(response.paging.pageNumber-1)">&lt;</a>
+            <a href="javascript:void(0);" *ngFor="let page of response.pages; let i = index" [className]="response.paging.pageNumber == (i+1) ? 'active' : 'inactive'" (click)="triggerSearch(i+1)">{{i +1}}</a>
+            <a href="javascript:void(0);" [className]="response.paging.pageNumber == response.pages?.length ? 'disable' : 'enable'" (click)="triggerSearch(response.paging.pageNumber+1)">&gt;</a>
+            <a href="javascript:void(0);" [className]="response.paging.pageNumber == response.pages?.length ? 'disable' : 'enable'" (click)="triggerSearch(response.pages?.length)">&gt;&gt;</a>
           </div>
         <hr class="divider"/>
         <div class="hotelList" *ngFor="let hotel of hotelsListData">
@@ -105,7 +101,7 @@
                         <span>{{ hotel.fare.baseFare | currency : hotel.fare.currency }}</span> / nights<br/>
                         Total: {{ ( hotel.fare.totalFare * numberOfGuests )  | currency : hotel.fare.currency }}<br/>
                     </div>
-                    <a href="" title="Show Rooms" class="hotelListShowRoomsBtn">Show rooms</a>
+                    <a href="javascript:void(0);" (click)="showNOtImplementedAlert()" title="Show Rooms" class="hotelListShowRoomsBtn">Show rooms</a>
                 </div>
             </div>
         </div>
