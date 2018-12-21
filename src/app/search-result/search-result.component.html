@@ -73,7 +73,7 @@
     <div *ngIf="showSpinner" class="spiner">
         <img src="assets/img/Loading_icon.gif" alt="Loading icon">
     </div>
-    <div class="hotelResult" *ngIf="hotelsListData && !showSpinner">
+    <div class="hotelResult" *ngIf="hotelsListData?.length > 0 && !showSpinner">
         <h2>{{hotelCount}} hotels in Las Vegas, NV on {{checkInDate | date : 'MMMM dd'}} - {{checkOutDate | date : 'MMMM dd'}} for {{numberOfGuests}} Adult(s)</h2>
         <div class="pagination" *ngIf="response.pages?.length > 1">
             <a href="javascript:void(0);" [className]="response.paging.pageNumber == 1 ? 'disable' : 'enable'" (click)="triggerSearch(1)">&lt;&lt;</a>

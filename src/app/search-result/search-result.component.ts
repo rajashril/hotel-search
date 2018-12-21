@@ -52,7 +52,8 @@ export class SearchResultComponent implements OnInit {
       },
       error => {
         this.errorMessage = error.error.message;
-        alert(this.errorMessage);
+        alert("Erorr ! "+this.errorMessage);
+        this.hotelsListData=[];
         this.hideLoadingSpinner();
       }
     );
@@ -101,7 +102,8 @@ export class SearchResultComponent implements OnInit {
             },
             error => {
               this.errorMessage = error.error.message;
-              alert(this.errorMessage);
+              alert("Erorr ! "+this.errorMessage);
+              this.hotelsListData=[];
               this.hideLoadingSpinner();
             }
           );
@@ -113,7 +115,8 @@ export class SearchResultComponent implements OnInit {
       },
       error => {
         this.errorMessage = error.error.message;
-        alert(this.errorMessage);
+        alert("Erorr ! "+this.errorMessage);
+        this.hotelsListData=[];
         this.hideLoadingSpinner();
       }
     );
