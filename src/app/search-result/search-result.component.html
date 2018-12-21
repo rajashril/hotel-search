@@ -64,7 +64,7 @@
                         <span class="radiobtn">3+</span>
                     </label>
                 </div>
-                <div class="w-200 px-15 py-15">
+                <div class="form-group">
                     <button type="button" class="btn-primary searchHotels" [disabled]="!searchForm.form.valid" (click)="triggerSearch(1)">Search for Hotels</button>
                 </div>
             </div>
@@ -74,7 +74,7 @@
         <img src="assets/img/Loading_icon.gif" alt="Loading icon">
     </div>
     <div class="hotelResult" *ngIf="hotelsListData && !showSpinner">
-        <h2>{{hotelCount}} hotels in Las Vegas, NV on {{checkInDate}} - {{checkOutDate}} for {{numberOfGuests}} Adult(s)</h2>
+        <h2>{{hotelCount}} hotels in Las Vegas, NV on {{checkInDate | date : 'MMMM dd'}} - {{checkOutDate | date : 'MMMM dd'}} for {{numberOfGuests}} Adult(s)</h2>
         <div class="pagination" *ngIf="response.pages?.length > 1">
             <a href="javascript:void(0);" [className]="response.paging.pageNumber == 1 ? 'disable' : 'enable'" (click)="triggerSearch(1)">&lt;&lt;</a>
             <a href="javascript:void(0);" [className]="response.paging.pageNumber == 1 ? 'disable' : 'enable'" (click)="triggerSearch(response.paging.pageNumber-1)">&lt;</a>
